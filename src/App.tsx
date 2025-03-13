@@ -1,36 +1,64 @@
-import { Bar, BarChart } from "recharts"
+import { Bar, BarChart, CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts"
 
 import { ChartConfig, ChartContainer } from "@/components/ui/chart"
+import { floodReadingFetched } from "./types/floodData"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./components/ui/card"
 
-const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
+const nowDateTime = new Date(Date.now() - 10000).toISOString()
+
+const chartDataSorted: floodReadingFetched[] = [
+    { dateTime: new Date(Date.now() - 90000).toISOString(), value: 3 },
+    { dateTime: new Date(Date.now() - 80000).toISOString(), value: 3 },
+    { dateTime: new Date(Date.now() - 70000).toISOString(), value: 3 },
+    { dateTime: new Date(Date.now() - 10000).toISOString(), value: 3 },
+    { dateTime: nowDateTime, value: 10 },
 ]
 
+const timeMatcher = /\d\d:\d\d/
+
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "#2563eb",
-  },
-  mobile: {
-    label: "Mobile",
-    color: "#60a5fa",
-  },
+    value: {
+        label: "Value",
+        color: "#119999",
+    },
 } satisfies ChartConfig
 
 export function App() {
-  return (
-    <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
-      <BarChart accessibilityLayer data={chartData}>
-        <Bar dataKey="desktop" fill="var(--color-desktop)" radius={4} />
-        <Bar dataKey="mobile" fill="var(--color-mobile)" radius={4} />
-      </BarChart>
-    </ChartContainer>
-  )
+    return (
+        <Card>
+            <CardHeader>
+                <CardTitle>Line Chart - Linear</CardTitle>
+                <CardDescription>January - June 2024</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
+                    <LineChart
+                        accessibilityLayer
+                        data={chartDataSorted}
+                        margin={{
+                            left: 12,
+                            right: 12,
+                        }}
+                    >
+                        <CartesianGrid vertical={false} />
+                        <XAxis
+                            dataKey="dateTime"
+                            tickLine={true}
+                            axisLine={true}
+                            tickMargin={12}
+                            tickFormatter={(value) => timeMatcher.exec(value)![0]}
+                        />
+                        <Line
+                            dataKey="value"
+                            type="linear"
+                            dot={false}
+                        />
+                    </LineChart>
+                </ChartContainer>
+            </CardContent>
+        </Card>
+    )
 }
+
 
 export default App
