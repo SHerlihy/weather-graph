@@ -9,3 +9,8 @@ export type stationDataFetched = {
     notation: string;
     label: string;
 }
+
+export type FloodReadingDisplayData = {
+    time: string,
+    value: number
+}

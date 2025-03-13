@@ -1,6 +1,7 @@
 import { ChartConfig, ChartContainer } from "@/components/ui/chart"
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { FloodReadingDisplayData } from "@/types/floodData"
 
 const chartConfig = {
     value: {
@@ -9,11 +10,6 @@ const chartConfig = {
     },
 } satisfies ChartConfig
 
-export type FloodReadingGraphData = {
-    xKey: string,
-    value: number
-}
-
 export function FloodReadingLineGraph({
     title,
     description,
@@ -21,7 +17,7 @@ export function FloodReadingLineGraph({
 }: {
     title: string,
     description: string,
-    dataSorted: FloodReadingGraphData[]
+    dataSorted: FloodReadingDisplayData[]
 }) {
     return (
         <Card>
@@ -41,7 +37,7 @@ export function FloodReadingLineGraph({
                     >
                         <CartesianGrid vertical={false} />
                         <XAxis
-                            dataKey="xKey"
+                            dataKey="time"
                             tickLine={true}
                             axisLine={true}
                             tickMargin={12}
