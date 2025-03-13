@@ -16,9 +16,6 @@ const chartDataSorted = [
 
 const timeMatcher = /\d\d:\d\d/
 
-
-export const FloodRecordsContext = createContext(null);
-
 export function App() {
     const floodReadingsContext = useFloodReadings()
     return (
