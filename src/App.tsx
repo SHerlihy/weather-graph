@@ -1,3 +1,13 @@
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table"
+
 import FloodReadingLineGraph from "@/floodReading/FloodReadingLineGraph"
 
 const nowDateTime = new Date(Date.now() - 10000).toISOString()
@@ -12,9 +22,34 @@ const chartDataSorted = [
 
 const timeMatcher = /\d\d:\d\d/
 
+function FloodRecordTable() {
+    return (
+        <Table>
+            <TableCaption>A list of your recent invoices.</TableCaption>
+            <TableHeader>
+                <TableRow>
+                    <TableHead className="w-[100px]">Time</TableHead>
+                    <TableHead>Value</TableHead>
+                </TableRow>
+            </TableHeader>
+            <TableBody>
+                {chartDataSorted.map(({ xKey, value }) => (
+                    <TableRow>
+                        <TableCell className="font-medium">{xKey}</TableCell>
+                        <TableCell>{value}</TableCell>
+                    </TableRow>
+                ))
+                }
+            </TableBody>
+        </Table>
+
+    )
+}
+
 export function App() {
     return (
         <>
+            <FloodRecordTable />
             <FloodReadingLineGraph
                 title="Flood Graph"
                 description="Flood Graph for test data"
