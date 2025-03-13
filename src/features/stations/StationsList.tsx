@@ -1,4 +1,4 @@
-import useFloodRecords from "@/hooks/useFloodRecords"
+import useFloodReadings from "@/hooks/useFloodReadings"
 import { handleGET } from "@/lib/async"
 import { stationDataFetched } from "@/types/floodData"
 import { ROOT_URI, STATIONS_ROUTE } from "@/vars"
@@ -52,11 +52,13 @@ async function getFloodReadings(stationId: string) {
 }
 
 function StationItem({ label, stationId }: { label: string, stationId: string }) {
-    const { setFloodRecords } = useFloodRecords()
+    const floodReadingsContext = useFloodReadings()
 
     const handleStationClick = async (stationId: string) => {
         const floodReadings = await getFloodReadings(stationId)
-        setFloodRecords(floodReadings)
+        if (!!floodReadingsContext?.setFloodReadings) {
+            floodReadingsContext.setFloodReadings(floodReadings)
+        }
     }
 
     return (

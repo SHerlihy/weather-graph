@@ -7,35 +7,40 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { FloodReadingDisplayData } from "@/types/floodData"
-
+import useFloodReadings from "@/hooks/useFloodReadings"
 
 function FloodReadingTable({
     title,
-    dataSorted
 }: {
     title: string,
-    dataSorted: FloodReadingDisplayData[]
 }) {
+    const floodReadingsContext = useFloodReadings()
     return (
-        <Table>
-            <TableCaption>{title}</TableCaption>
-            <TableHeader>
-                <TableRow>
-                    <TableHead className="w-[100px]">Time</TableHead>
-                    <TableHead>Value</TableHead>
-                </TableRow>
-            </TableHeader>
-            <TableBody>
-                {dataSorted.map(({ time, value }) => (
-                    <TableRow>
-                        <TableCell className="font-medium">{time}</TableCell>
-                        <TableCell>{value}</TableCell>
-                    </TableRow>
-                ))
-                }
-            </TableBody>
-        </Table>
+        <>
+            {!floodReadingsContext && <p>Flood records unavailable</p>}
+            {!floodReadingsContext?.floodReadings && <p>Flood records unavailable</p>}
+            {
+                floodReadingsContext?.floodReadings &&
+                <Table>
+                    <TableCaption>{title}</TableCaption>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead className="w-[100px]">Time</TableHead>
+                            <TableHead>Value</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {floodReadingsContext.floodReadings.map(({ dateTime, value }) => (
+                            <TableRow>
+                                <TableCell className="font-medium">{dateTime}</TableCell>
+                                <TableCell>{value}</TableCell>
+                            </TableRow>
+                        ))
+                        }
+                    </TableBody>
+                </Table>
+            }
+        </>
 
     )
 }
