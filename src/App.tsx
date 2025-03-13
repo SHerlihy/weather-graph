@@ -1,7 +1,8 @@
-import { createContext, useContext } from "react"
+import { createContext } from "react"
 import { StationsList } from "./features/stations/StationsList";
 import FloodReadingTable from "./features/floodReading/FloodReadingTable";
 import FloodReadingLineGraph from "./features/floodReading/FloodReadingLineGraph";
+import useFloodReadings from "./hooks/useFloodReadings";
 
 const nowDateTime = new Date(Date.now() - 10000).toISOString()
 
@@ -19,11 +20,13 @@ const timeMatcher = /\d\d:\d\d/
 export const FloodRecordsContext = createContext(null);
 
 export function App() {
-    const floodRecords = useContext(FloodRecordsContext)
-
+    const floodReadingsContext = useFloodReadings()
     return (
         <>
             <StationsList />
+            {!floodReadingsContext && <p>Flood records unavailable</p>}
+            {!floodReadingsContext?.floodReadings&& <p>Flood records unavailable</p>}
+            {floodReadingsContext?.floodReadings && <p>{floodReadingsContext.floodReadings.length}</p>}
             <section>
                 <FloodReadingTable
                     title="Flood Table"
