@@ -1,7 +1,7 @@
-import FloodReadingLineGraph from "@/floodReading/FloodReadingLineGraph"
-import FloodReadingTable from "@/floodReading/FloodReadingTable"
-import { StationsList } from "./stations/StationsList"
 import { createContext, useContext } from "react"
+import { StationsList } from "./features/stations/StationsList";
+import FloodReadingTable from "./features/floodReading/FloodReadingTable";
+import FloodReadingLineGraph from "./features/floodReading/FloodReadingLineGraph";
 
 const nowDateTime = new Date(Date.now() - 10000).toISOString()
 
