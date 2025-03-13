@@ -16,31 +16,28 @@ function FloodReadingTable({
 }) {
     const floodReadingsContext = useFloodReadings()
     return (
-        <>
+        <Table>
+            <TableCaption>{title}</TableCaption>
+            <TableHeader>
+                <TableRow>
+                    <TableHead className="w-[100px]">Time</TableHead>
+                    <TableHead>Value</TableHead>
+                </TableRow>
+            </TableHeader>
             {!floodReadingsContext && <p>Flood records unavailable</p>}
             {!floodReadingsContext?.floodReadings && <p>Flood records unavailable</p>}
-            {
-                floodReadingsContext?.floodReadings &&
-                <Table>
-                    <TableCaption>{title}</TableCaption>
-                    <TableHeader>
+            {floodReadingsContext?.floodReadings &&
+                <TableBody>
+                    {floodReadingsContext.floodReadings.map(({ dateTime, value }) => (
                         <TableRow>
-                            <TableHead className="w-[100px]">Time</TableHead>
-                            <TableHead>Value</TableHead>
+                            <TableCell className="font-medium">{dateTime}</TableCell>
+                            <TableCell>{value}</TableCell>
                         </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {floodReadingsContext.floodReadings.map(({ dateTime, value }) => (
-                            <TableRow>
-                                <TableCell className="font-medium">{dateTime}</TableCell>
-                                <TableCell>{value}</TableCell>
-                            </TableRow>
-                        ))
-                        }
-                    </TableBody>
-                </Table>
+                    ))
+                    }
+                </TableBody>
             }
-        </>
+        </Table>
 
     )
 }

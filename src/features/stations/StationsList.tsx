@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button"
 import useFloodReadings from "@/hooks/useFloodReadings"
 import { handleGET } from "@/lib/async"
 import { stationDataFetched } from "@/types/floodData"
@@ -27,7 +28,7 @@ export function StationsList() {
     }, [])
 
     return (
-        <section className="w-full h-[70vh] overflow-scroll">
+        <section>
             {stationsData === null && <p>Loading...</p>}
             {stationsData !== null && stationsData.map((stationData) => <StationItem stationId={stationData.notation} label={stationData.label} />)}
         </section>
@@ -62,9 +63,9 @@ function StationItem({ label, stationId }: { label: string, stationId: string })
     }
 
     return (
-        <>
+        <div className="flex justify-between">
             <p>{label}</p>
-            <button onClick={() => handleStationClick(stationId)}>Get Records</button>
-        </>
+            <Button onClick={() => handleStationClick(stationId)}>Get Readings</Button>
+        </div>
     )
 }
